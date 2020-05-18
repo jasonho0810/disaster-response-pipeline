@@ -2,11 +2,13 @@
 
 ## Project Motivation
 Following a disaster, there will often be millions of communications direct or via social media, just when disaster response organizations have the least capacities to filter and prioritize these messages. Often, only one in a thousand message requires the immediate attention of a disaster response professional.
+
 Furthermore, different organizations typically take care of different aspects of the disaster. Our web app dashboard labels each communication message into labels that can be acted on by organizations. The labels are consistent over different disasters and can be used to investigate and visualize trends of these categories.
+
 Each message is labelled with 36 categories:
-```python
+`
 'related' 'request' 'offer' 'aid_related' 'medical_help' 'medical_products' 'search_and_rescue' 'security' 'military' 'child_alone' 'water' 'food' 'shelter' 'clothing' 'money' 'missing_people' 'refugees' 'death' 'other_aid' 'infrastructure_related' 'transport' 'buildings' 'electricity' 'tools' 'hospitals' 'shops' 'aid_centers' 'other_infrastructure' 'weather_related' 'floods' 'storm' 'fire' 'earthquake' 'cold' 'other_weather' 'direct_report'
-```
+`
 
 ## Instructions:
 To run the web app, you can either host it locally or visit the website hosted on Heroku.
