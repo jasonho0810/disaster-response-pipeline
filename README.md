@@ -8,7 +8,7 @@ Furthermore, different organizations typically take care of different aspects of
 Each message is labelled with 36 categories:
 `'related' 'request' 'offer' 'aid_related' 'medical_help' 'medical_products' 'search_and_rescue' 'security' 'military' 'child_alone' 'water' 'food' 'shelter' 'clothing' 'money' 'missing_people' 'refugees' 'death' 'other_aid' 'infrastructure_related' 'transport' 'buildings' 'electricity' 'tools' 'hospitals' 'shops' 'aid_centers' 'other_infrastructure' 'weather_related' 'floods' 'storm' 'fire' 'earthquake' 'cold' 'other_weather' 'direct_report'`
 
-Note: some 
+Note: The dataset provided is imbalanced (certain labels like water have few examples). As such, the trained classifier model may produce naive classifications and misleading labellings. In this case, Accuracy of the model may be misleading and it may be best to focus more on Precision or Recall for these categories. If none of the messages are labelled with a certain category, Precision and F-score in the classification report will be ill-defined and set to 0 for that category.
 
 ## Instructions:
 To run the web app, you can either host it locally or visit the website hosted on Heroku.
@@ -39,6 +39,7 @@ pip3 install -r requirements.txt
 - SciKit-Learn - Random Forest classifier
 - Pickle5
 - Plotly
+- Flask
 
 ## File Description:
 `app/run.py` - Python script to host the web app locally
