@@ -1,7 +1,7 @@
 pandas
 numpy
-pickle
+pickle5
 sqlalchemy
-re
 nltk
 scikit-learn
+plotly
