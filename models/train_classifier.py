@@ -67,7 +67,10 @@ def evaluate_model(model, X_test, Y_test, category_names):
     Y_pred = model.predict(X_test)
     for i, col in enumerate(Y_test[category_names]):
         print(col)
-        print(classification_report(Y_test[col], Y_pred[:,i], target_names=['yes', 'no']))
+        try:
+            print(classification_report(Y_test[col], Y_pred[:, i], target_names=['yes', 'no']))
+        except:
+            print('naive behaviour')
 
 
 def save_model(model, model_filepath):
