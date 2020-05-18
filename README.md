@@ -8,6 +8,8 @@ Furthermore, different organizations typically take care of different aspects of
 Each message is labelled with 36 categories:
 `'related' 'request' 'offer' 'aid_related' 'medical_help' 'medical_products' 'search_and_rescue' 'security' 'military' 'child_alone' 'water' 'food' 'shelter' 'clothing' 'money' 'missing_people' 'refugees' 'death' 'other_aid' 'infrastructure_related' 'transport' 'buildings' 'electricity' 'tools' 'hospitals' 'shops' 'aid_centers' 'other_infrastructure' 'weather_related' 'floods' 'storm' 'fire' 'earthquake' 'cold' 'other_weather' 'direct_report'`
 
+Note: some 
+
 ## Instructions:
 To run the web app, you can either host it locally or visit the website hosted on Heroku.
 #### 1. Host it locally
@@ -28,7 +30,7 @@ Go to Heroku website
 
 ## Installations:
 ```python
-python3 install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 - pandas
 - numpy
@@ -36,6 +38,7 @@ python3 install -r requirements.txt
 - nltk - NLP data processing
 - scikit-learn - Random Forest classifier
 - pickle5
+- plotly
 
 ## File Description:
 `app/run.py` - Python script to host the web app locally
