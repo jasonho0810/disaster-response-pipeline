@@ -33,12 +33,12 @@ Go to Heroku website
 pip3 install -r requirements.txt
 ```
 - pandas
-- numpy
-- sqlalchemy
-- nltk - NLP data processing
-- scikit-learn - Random Forest classifier
-- pickle5
-- plotly
+- NumPy
+- SQLalchemy
+- NLTK - NLP data processing
+- SciKit-Learn - Random Forest classifier
+- Pickle5
+- Plotly
 
 ## File Description:
 `app/run.py` - Python script to host the web app locally
