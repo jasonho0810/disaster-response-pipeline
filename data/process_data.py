@@ -6,6 +6,15 @@ from sqlalchemy.ext.declarative import declarative_base
 
 
 def load_data(messages_filepath, categories_filepath):
+    '''
+    INPUT
+    messages_filepath - file path to the csv file for disaster messages 
+    categories_filepath - file path to the csv file for message categories 
+    
+    OUTPUT
+    df - a DataFrame of messages inner-joined with categories
+    '''
+    
     # load messages and categories dataset
     messages = pd.read_csv(messages_filepath)
     categories = pd.read_csv(categories_filepath)
@@ -17,6 +26,15 @@ def load_data(messages_filepath, categories_filepath):
 
 
 def clean_data(df):
+    '''
+    INPUT
+    df - DataFrame of messages inner-joined with categories
+    
+    OUTPUT
+    df - cleaned DataFrame with categorical variables, column names, and \
+    duplicates removed.
+    '''
+    
     # create a dataframe of the 36 individual category columns
     categories = df['categories'].str.split(';', expand = True)
     
@@ -48,7 +66,17 @@ def clean_data(df):
 
 
 def save_data(df, database_filename):
-    engine = create_engine('sqlite:///'+database_filepath)
+    '''    
+    INPUT
+    df - cleaned DataFrame of messages inner-joined with categories
+    database_filename - name of SQL database
+    
+    OUTPUT
+    None
+    Stores or replaces cleaned DataFrame in SQL database
+    '''
+
+    engine = create_engine('sqlite:///'+database_filename)
     df.to_sql('disaster', engine, index=False, if_exists='replace')
 
 

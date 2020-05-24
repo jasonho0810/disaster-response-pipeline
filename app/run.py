@@ -43,6 +43,13 @@ def index():
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
     
+    cat = df.columns.values[4:]
+    category_counts = df[cat].sum()
+    category_names = list(category_counts.index.values)
+
+    labels_counts = df[cat].sum(axis=1).value_counts()
+    num_of_labels = list(labels_counts.index.values)
+
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
     graphs = [
@@ -63,8 +70,47 @@ def index():
                     'title': "Genre"
                 }
             }
+        },
+
+        {
+            'data': [
+                Bar(
+                    x=category_names,
+                    y=category_counts
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of Category Labels',
+                'yaxis': {
+                    'title': "Count"
+                },
+                'xaxis': {
+                    'title': "Categories"
+                }
+            }
+        },
+
+        {
+            'data': [
+                Bar(
+                    x=num_of_labels,
+                    y=labels_counts
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of Number of Labels',
+                'yaxis': {
+                    'title': "Count"
+                },
+                'xaxis': {
+                    'title': "Number of Labels"
+                }
+            }
         }
     ]
+
     
     # encode plotly graphs in JSON
     ids = ["graph-{}".format(i) for i, _ in enumerate(graphs)]
@@ -73,10 +119,6 @@ def index():
     # render web page with plotly graphs
     return render_template('master.html', ids=ids, graphJSON=graphJSON)
 
-
-@app.route('/test')
-def temp():
-    print('test')
 
 # web page that handles user query and displays model results
 @app.route('/go')

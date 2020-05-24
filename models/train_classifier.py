@@ -6,7 +6,8 @@ from sqlalchemy import create_engine
 
 import re
 import nltk
-nltk.download(['punkt', 'wordnet', 'stopwords', 'averaged_perceptron_tagger', 'maxent_ne_chunker'])
+nltk.download(['punkt', 'wordnet', 'stopwords', 'averaged_perceptron_tagger', \
+               'maxent_ne_chunker'])
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
@@ -19,9 +20,20 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
+from sklearn.model_selection import GridSearchCV
 
 
 def load_data(database_filepath):
+    '''
+    INPUT
+    database_filepath - file path to the SQL database
+    
+    OUTPUT
+    X - predictor disaster messages
+    Y - response message category labels
+    cat_names - list of category labels
+    '''
+   
     # load data from database
     engine = create_engine('sqlite:///'+database_filepath)
     df = pd.read_sql_table('disaster', con = engine)
@@ -33,6 +45,15 @@ def load_data(database_filepath):
 
 
 def tokenize(text):
+    '''
+    INPUT
+    text - a disaster message text
+    
+    OUTPUT
+    clean_tokens - clean word tokens of text with normalized cases, \
+    punctuations and stop words removed, and in their root form. 
+    '''
+
     # Normalize text
     text = re.sub(r"(\d)[^a-zA-Z0-9_](\d)", "\\1\\2", text.lower())
     text = re.sub(r"[^a-zA-Z0-9_]", " ", text)
@@ -54,26 +75,68 @@ def tokenize(text):
 
 
 def build_model():
+    '''
+    INPUT
+    None
+    
+    OUTPUT
+    cv - TfidfVectorizer and Random Forest classifier pipeline with optimal 
+    hyperparameters for sublinear tf scaling and max tree depth.
+    '''
+
     model = Pipeline([
         ('vect', CountVectorizer(tokenizer=tokenize)),
         ('tfidf', TfidfTransformer()),
-        ('rfclf', MultiOutputClassifier(RandomForestClassifier(n_jobs = -1, random_state = 42), n_jobs = -1)), 
+        ('rfclf', MultiOutputClassifier(
+            RandomForestClassifier(n_jobs=-1, random_state=42), n_jobs=-1)),
     ])
+
+    # params dict to tune a model
+    parameters = {
+        'tfidf__sublinear_tf': [True, False],
+        'rfclf__estimator__max_depth': np.linspace(10, 100, 10, dtype=int),
+    }
     
+    # instantiate a gridsearchcv object with the params defined
+    model = GridSearchCV(model, param_grid=parameters, cv=3)
+
     return model
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
+    '''
+    INPUT
+    model - classification model
+    X_test - testing predictor disaster messages
+    Y_test - testing response message category labels
+    category_names -  list of category labels
+    
+    OUTPUT
+    None
+    Prints a classification report evaluation for each category label
+    '''
+     
     Y_pred = model.predict(X_test)
     for i, col in enumerate(Y_test[category_names]):
         print(col)
         try:
-            print(classification_report(Y_test[col], Y_pred[:, i], target_names=['yes', 'no']))
+            print(classification_report(Y_test[col], Y_pred[:, i], \
+                                        target_names=['yes', 'no']))
         except:
             print('naive behaviour')
 
 
 def save_model(model, model_filepath):
+    '''
+    INPUT
+    model - classification model
+    model_filepath - file path to classification model pickle file
+    
+    OUTPUT
+    None
+    Stores or replaces classification model as a pickle file
+    '''
+        
     pickle.dump(model, open(model_filepath, 'wb'))
 
 
