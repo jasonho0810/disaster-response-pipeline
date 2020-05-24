@@ -49,4 +49,4 @@ pip3 install -r requirements.txt
 
 ## Licensing, Authors, and Acknowledgements:
 The base code is provided by Udacity as part of a project in their Data Scientist Nanodegree.
-MIT License
+[MIT License](https://github.com/jasonho0810/disaster-response-pipeline/blob/master/LICENSE)
