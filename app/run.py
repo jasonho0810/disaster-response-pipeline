@@ -1,3 +1,4 @@
+import os
 import json
 import plotly
 import pandas as pd
@@ -10,9 +11,13 @@ from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar
 import joblib
 from sqlalchemy import create_engine
+from flask.ext.sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../data/DisasterResponse.db'
+db = SQLAlchemy(app)
 
 
 def tokenize(text):
